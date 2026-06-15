@@ -144,3 +144,5 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER',default='')   # SMTP server username
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD',default='')  # SMTP server password
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+LOGIN_REDIRECT_URL="/"
+LOGOUT_REDIRECT_URL="/"
