@@ -136,13 +136,18 @@ STATICFILES_DIRS=[
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST',default='smtv4dev')  # SMTP server host
+EMAIL_HOST = config('EMAIL_HOST',default='smtp4dev')  # SMTP server host
 EMAIL_PORT =config('EMAIL_PORT',cast=int,default=25)    # SMTP server port (587 for TLS, 465 for SSL)
-EMAIL_USE_TLS = config('EMAIL_USE_TLS ',cast=bool,default='False') 
-EMAIL_USE_SSL = config('EMAIL_USE_SSL ',cast=bool,default='False')# True for TLS, False for SSL
+EMAIL_USE_TLS = config('EMAIL_USE_TLS',cast=bool,default='False') 
+EMAIL_USE_SSL = config('EMAIL_USE_SSL',cast=bool,default='False')# True for TLS, False for SSL
 EMAIL_HOST_USER = config('EMAIL_HOST_USER',default='')   # SMTP server username
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD',default='')  # SMTP server password
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 LOGIN_REDIRECT_URL="/"
 LOGOUT_REDIRECT_URL="/"
+CELERY_BROKER_URL = "redis://redis:6379/0"
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+PASSWORD_RESET_TIMEOUT = 86400

@@ -15,6 +15,12 @@ services:
     ports:
       - 5432
     restart: always
+  redis:
+    container_name: redis
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
 
   backend:
     container_name: backend
