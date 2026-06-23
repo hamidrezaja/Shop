@@ -58,17 +58,16 @@
 
             <!-- Dropdown -->
             <li class="hs-has-sub-menu nav-item">
-              <a id="listingsDropdown" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">لیست محصولات</a>
-              <div class="hs-sub-menu dropdown-menu" aria-labelledby="listingsDropdown" style="min-width: 14rem;">
-                <a class="dropdown-item " href="/products-list.html">فهرست</a>
-                <a class="dropdown-item " href="/products-grid.html">فهرست (شبکه)</a>
-              </div>
+              <a  href="{% url 'store:products-grid' %}" 
+                 aria-expanded="false">لیست محصولات</a>
             </li>
             <!-- End Dropdown -->
 
             <li class="nav-item">
-              <a class="nav-link " href="/product-overview.html">بررسی اجمالی محصولات</a>
+              <a class="nav-link " href="{% url 'website:about' %}">درباره ما </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="{% url 'website:contact' %}">  ارتباط با ما </a>
             </li>
 
             <!-- Pages -->
@@ -78,29 +77,11 @@
                     "maxWidth": "27rem"
                   }
                 }'>
-              <a id="pagesMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " aria-current="page" href="#"
-                role="button" data-bs-toggle="dropdown" aria-expanded="false">صفحات</a>
 
               <!-- Mega Menu -->
               <div class="hs-mega-menu dropdown-menu" aria-labelledby="pagesMegaMenu" style="min-width: 27rem;">
                 <div class="navbar-dropdown-menu-inner">
                   <span class="dropdown-header">عناصر</span>
-
-                  <div class="row">
-                    <div class="col-sm mb-3 mb-sm-0">
-                      <a class="dropdown-item " href="/categories.html">دسته بندی ها</a>
-                      <a class="dropdown-item " href="/categories-sidebar.html">نوار کناری دسته ها</a>
-                      <a class="dropdown-item " href="/empty-cart.html">سبد خالی</a>
-                    </div>
-                    <!-- End Col -->
-
-                    <div class="col-sm">
-                      <a class="dropdown-item " href="/cart.html">سبد خرید</a>
-                      <a class="dropdown-item " href="/checkout.html">بررسی</a>
-                      <a class="dropdown-item " href="/order-completed.html">سفارش تکمیل شد</a>
-                    </div>
-                    <!-- End Col -->
-                  </div>
                   <!-- End Row -->
                 </div>
 
@@ -353,14 +334,14 @@
 
           <div class="mb-7">
             <!-- Form -->
-            <form>
+            <form method='get' action='{% url "store:products-grid" %}' name="q" value="{{ request.GET.q }}">
               <!-- Input Card -->
               <div class="input-card">
                 <div class="input-card-form">
                   <input type="text" class="form-control form-control-lg" placeholder="جستجو محصولات"
-                    aria-label="جستجو محصولات">
+                    aria-label="جستجو محصولات" name="q" value="{{ request.GET.q }}">
                 </div>
-                <button type="button" class="btn btn-primary btn-lg">جستجو کردن</button>
+                <button type="submit" class="btn btn-primary btn-lg">جستجو کردن</button>
               </div>
               <!-- End Input Card -->
             </form>
@@ -484,19 +465,10 @@
   <script src="{% static 'js/theme.min.js' %}"></script>
   <!-- JS Toastify -->
   <script src="{% static 'vendor/toastify/toastify.js' %}"></script>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- JS Plugins Init. -->
   <script>
     (function () {
-      // INITIALIZATION OF MEGA MENU
-      // =======================================================
-      new HSMegaMenu('.js-mega-menu', {
-        desktop: {
-          position: 'left'
-        }
-      })
-
-
       // INITIALIZATION OF SHOW ANIMATIONS
       // =======================================================
       new HSShowAnimation('.js-animation-link')
