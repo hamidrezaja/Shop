@@ -116,11 +116,10 @@
               <!-- End Search -->
 
               <!-- Shopping Cart -->
-              <button type="button" class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbarShoppingCart" aria-controls="offcanvasNavbarShoppingCart">
+              <a href='{% url "cart:detail-cart" %}' class="btn btn-ghost-secondary btn-icon">
                 <i class="bi-basket"></i>
-                <span class="cart-item-count ">3</span>
-              </button>
+                <span class="cart-item-count ">{{cart|length}}</span>
+               </a>
               <!-- End Shopping Cart -->
               {% if request.user.is_authenticated %}
             

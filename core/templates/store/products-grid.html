@@ -202,7 +202,7 @@
                   <h4 class="card-title">
                     <a class="text-dark" href="{% url 'store:product-detail' product.slug %}">{{ product.title }}</a>
                   </h4>
-                  <p class="card-text text-dark"> {{ product.price|intcomma }} تومان </p>
+                  <p class="card-text text-dark"> {{ product.get_price|intcomma }} تومان </p>
                 </div>
 
                 <div class="card-footer pt-0">
@@ -218,8 +218,10 @@
                     <span class="small">0</span>
                   </a>
                   <!-- End Rating -->
-
-                  <button type="button" class="btn btn-outline-primary btn-sm btn-transition rounded-pill">افزودن به سبد خرید</button>
+                   <form method='post' action="{% url 'cart:add-cart' product.id %}">
+                    {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-primary btn-sm btn-transition rounded-pill">افزودن به سبد خرید</button>
+                  </form>
                 </div>
               </div>
               <!-- End Card -->

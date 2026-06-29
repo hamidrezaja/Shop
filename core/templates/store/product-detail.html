@@ -198,10 +198,12 @@
             <!-- End Collapse -->
           </div>
           <!-- End Accordion -->
-
+          <form method='post' action="{% url 'cart:add-cart' object.id %}">
+            {% csrf_token %}
           <div class="d-grid mb-4">
-            <button type="button" class="btn btn-primary btntransition">افزودن به سبد خرید</button>
+            <button type="submit" class="btn btn-primary btntransition" >افزودن به سبد خرید</button>
           </div>
+          </form>
 
           <!-- Media -->
           <div class="d-flex align-items-center">
