@@ -31,8 +31,14 @@ class Profile (models.Model):
     first_name=models.CharField(max_length=255)
     last_name=models.CharField(max_length=255)
     phone_num=models.CharField(max_length=12,validators=[validate_iranian_phone])
+    image = models.ImageField(upload_to="profile/",default="profile/default.png")
     date_joined = models.DateTimeField(auto_now_add=True)
     updated_date=models.DateTimeField(auto_now=True)
+    
+    def get_full_name(self):
+        if self.first_name or self.last_name:
+            return self.first_name + '  '+ self.last_name
+        return 'کاربر جدید'
     
 @receiver(post_save, sender=CustomUser)
 def create_profile(sender,created,instance ,**kwargs):
