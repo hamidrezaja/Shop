@@ -33,6 +33,7 @@ class CustomerProfileEditForm(forms.ModelForm):
     def __init__(self,*args, **kwargs ):
         super().__init__(*args, **kwargs)
         self.fields['image'].widget.attrs['class']='js-file-attach form-attachment-btn-label'
+        self.fields['image'].widget.attrs['id']='imgInp'
         self.fields['first_name'].widget.attrs['class']='form-control'
         self.fields['first_name'].widget.attrs['placeholder']='نام'
         self.fields['last_name'].widget.attrs['class']='form-control'

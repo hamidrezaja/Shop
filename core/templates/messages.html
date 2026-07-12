@@ -1,6 +1,6 @@
 {% if messages %}
     {% for message in messages %}
-      <script>
+        <script>
         Toastify({
             text:`{{ message|safe }}`,
             className: `{{ message.tags }}`,
@@ -8,18 +8,16 @@
               background: "blue",
             }
           }).showToast();
-      </script>
+        </script>
     {% endfor %}
-  {% endif %}
-
-  {% if form.errors %}
+{% endif %}
+{% if form.errors %}
     <div class="alert alert-error">
-      <ul>
-        {% for field in form %}
-          {% if field.errors %}
-            {% for error in field.errors %}
-              
-              <script>
+        <ul>
+            {% for field in form %}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <script>
                 Toastify({
                     text:`{{ error|escape }}`,
                     className: `error`,
@@ -27,13 +25,13 @@
                       background: "red",
                     }
                   }).showToast();
-              </script>
+                        </script>
+                    {% endfor %}
+                {% endif %}
             {% endfor %}
-          {% endif %}
-        {% endfor %}
-      </ul>
-      {% if form.non_field_errors %}
-        <script>
+        </ul>
+        {% if form.non_field_errors %}
+            <script>
             Toastify({
                 text:`{{ form.non_field_errors.as_text }}`,
                 className: `error`,
@@ -41,7 +39,7 @@
                   background: "red",
                 }
               }).showToast();
-          </script>
-      {% endif %}
+            </script>
+        {% endif %}
     </div>
-  {% endif %}
+{% endif %}

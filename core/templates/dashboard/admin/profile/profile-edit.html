@@ -1,107 +1,119 @@
 {% extends "dashboard/admin/base.html" %}
-
 {% block breadcrumb %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb breadcrumb-light mb-0">
-    <li class="breadcrumb-item">حساب</li>
-    <li class="breadcrumb-item active" aria-current="page">داشبورد</li>
-    </ol>
-</nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-light mb-0">
+            <li class="breadcrumb-item">حساب</li>
+            <li class="breadcrumb-item active" aria-current="page">تنطیمات پروفایل</li>
+        </ol>
+    </nav>
 {% endblock %}
-
-
-
 {% block content %}
-<div class="d-grid gap-3 gap-lg-5">
-            <!-- Card -->
-            <div class="card">
-              <div class="card-header border-bottom">
-                <h4 class="card-header-title">اطلاعات پایه</h4>
-              </div>
-
-              <!-- Body -->
-              <div class="card-body">
-                <form method='post' enctype="multipart/form-data">
+    <div class="d-grid gap-3 gap-lg-5">
+        <!-- Card -->
+        <div class="card">
+            <div class="card-header border-bottom">
+                <h4 class="card-header-title">ویرایش تصویر</h4>
+            </div>
+            <div class="card-body ">
+                <form action='{% url "dashboard:admin:profile-image-edit" %}'
+                      method='post'
+                      enctype="multipart/form-data">
                     {% csrf_token %}                 <!-- Form -->
-                  <div class="row mb-4">
-                    <label class="col-sm-3 col-form-label form-label">عکس پروفایل</label>
-
-                    <div class="col-sm-9">
-                      <!-- Media -->
-                      <div class="d-flex align-items-center">
-                        <!-- Avatar -->
-                        <label class="avatar avatar-xl avatar-circle" for="avatarUploader">
-                          <img id="avatarImg" class="avatar-img" src="{{object.image.url}}"
-                            alt="Image Description">
-                        </label>
-
-                        <div class="d-grid d-sm-flex gap-2 me-4">
-                          <div class="form-attachment-btn btn btn-primary btn-sm">آپلود عکس
-                            {{form.image}}
-                          </div>
-                        </div>
-                      </div>
-                      <!-- End Media -->
-                    </div>
-                  </div>
-                  <!-- End Form -->
-
-                  <!-- Form -->
-                  <div class="row mb-4">
-                    <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">نام و نام خانوادگی <i
-                        class="bi-question-circle text-body ms-1" data-bs-toggle="tooltip" data-bs-placement="top"
-                        title="Displayed on public forums, such as Front."></i></label>
-
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                          {{form.first_name}}
-                          {{form.last_name}}
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End Form -->
-
-                  <!-- Form -->
-                  <div class="row mb-4">
-                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">ایمیل</label>
-
-                    <div class="col-sm-9">
-                      <input type="email" class="form-control" name="email" id="emailLabel"
-                        placeholder="clarice@example.com" aria-label="clarice@example.com" value="{{request.user.email}}" readonly>
-                    </div>
-                  </div>
-                  <!-- End Form -->
-
-                  <!-- Form -->
-                  <div class="js-add-field row mb-4" data-hs-add-field-options='{
-                          "template": "#addPhoneFieldTemplate",
-                          "container": "#addPhoneFieldContainer",
-                          "defaultCreated": 0
-                        }'>
-                    <label for="phoneLabel" class="col-sm-3 col-form-label form-label">تلفن <span
-                        class="form-label-secondary">(اختیاری)</span></label>
-
-                    <div class="col-sm-9 mb-4">
-                      <div class="input-group">
-                        {{form.phone_num}}
-                      </div>
-                    </div>
-                    <div class="card-footer pt-0">
-                        <div class="d-flex justify-content-end gap-3">
-                            <a class="btn btn-white" href="{% url 'dashboard:admin:home' %}">لغو</a>
-                            <button type='submit' class="btn btn-primary" href="javascript:;">ذخیره تغییرات</button>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label form-label">عکس پروفایل</label>
+                        <div class="col-sm-9">
+                            <!-- Media -->
+                            <div class="d-flex align-items-center">
+                                <!-- Avatar -->
+                                <label class="avatar avatar-xl avatar-circle" for="avatarUploader">
+                                    <img id="blah"
+                                         class="avatar-img"
+                                         src="{{ object.image.url }}"
+                                         alt="Image Description">
+                                    {{ form.image }}
+                                </label>
+                                <div class="d-grid d-sm-flex gap-2 me-4">
+                                    <button type="submit"
+                                            name='delete_image'
+                                            class="form-attachment-btn btn btn-white btn-sm">پاک کردن</button>
+                                    <button type="submit" class="form-attachment-btn btn btn-primary btn-sm">ذخیره</button>
+                                </div>
+                            </div>
+                            <!-- End Media -->
                         </div>
                     </div>
-                  <!-- End Form -->
+                    <!-- End Form -->
                 </form>
-              </div>
-              <!-- End Body -->
-
-              <!-- Footer -->
-              
-              <!-- End Footer -->
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header border-bottom">
+                <h4 class="card-header-title">اطلاعات پایه</h4>
+            </div>
+            <!-- Body -->
+            <div class="card-body">
+                <form action='.' method='post'>
+                    {% csrf_token %}
+                    <!-- Form -->
+                    <div class="row mb-4">
+                        <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">نام و نام خانوادگی <i class="bi-question-circle text-body ms-1"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Displayed on public forums, such as Front."></i></label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                {{ form.first_name }}
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                    <!-- Form -->
+                    <div class="row mb-4">
+                        <label for="emailLabel" class="col-sm-3 col-form-label form-label">ایمیل</label>
+                        <div class="col-sm-9">
+                            <input type="email"
+                                   class="form-control"
+                                   name="email"
+                                   id="emailLabel"
+                                   placeholder="clarice@example.com"
+                                   aria-label="clarice@example.com"
+                                   value="{{ request.user.email }}"
+                                   readonly>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                    <!-- Form -->
+                    <div class="js-add-field row mb-4"
+                         data-hs-add-field-options='{ "template": "#addPhoneFieldTemplate", "container": "#addPhoneFieldContainer", "defaultCreated": 0 }'>
+                        <label for="phoneLabel" class="col-sm-3 col-form-label form-label">تلفن <span class="form-label-secondary">(اختیاری)</span></label>
+                        <div class="col-sm-9 mb-4">
+                            <div class="input-group">{{ form.phone_num }}</div>
+                        </div>
+                        <div class="card-footer pt-0">
+                            <div class="d-flex justify-content-end gap-3">
+                                <a class="btn btn-white" href="{% url 'dashboard:admin:home' %}">لغو</a>
+                                <button type='submit' class="btn btn-primary" href="javascript:;">ذخیره تغییرات</button>
+                            </div>
+                        </div>
+                        <!-- End Form -->
+                    </form>
+                </div>
+                <!-- End Body -->
+                <!-- Footer -->
+                <!-- End Footer -->
             </div>
             <!-- End Card -->
+        </div>
+    {% endblock %}
+    {% block extra_js %}
+        <script>
+imgInp.onchange = evt => {
+  const [file] = imgInp.files
+  if (file) {
+    blah.src = URL.createObjectURL(file)
+  }
+}
 
-          </div>
-{% endblock %}
+        </script>
+    {% endblock extra_js %}

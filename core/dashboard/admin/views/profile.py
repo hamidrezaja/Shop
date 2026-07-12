@@ -29,4 +29,29 @@ class AdminProfileEditView(LoginRequiredMixin,HasAdminAccessPermission,SuccessMe
     success_message = "بروز رسانی پروفایل با موفقیت انجام شد"
     def get_object(self, queryset=None):
         return Profile.objects.get(user=self.request.user)
+
+
+class AdminProfileImageEditView(LoginRequiredMixin,HasAdminAccessPermission,SuccessMessageMixin,UpdateView):
+    http_method_names=['post']
+    model=Profile
+    fields=['image']
+    success_url = reverse_lazy('dashboard:admin:profile-edit')
+    success_message = "بروز رسانی پروفایل با موفقیت انجام شد"
+    def get_object(self, queryset=None):
+        return Profile.objects.get(user=self.request.user)
+    def post(self, request, *args, **kwargs):
+        
+        self.object=self.get_object()        
+        if 'delete_image' in request.POST:
+            if self.object.image:
+                self.object.image.delete(save=False)
+                self.object.image="profile/default.png"
+                self.object.save()
+                messages.success(self.request,'تصویر شما حذف شد ')
+                return redirect(self.success_url)
+        
+        return super().post(request, *args, **kwargs)
+    def form_invalid(self, form):
+        messages.error(self.request,'آپلود تصویر با انجام نششد لطفا مجدد تلاش کنید')
+        return redirect(self.success_url)
     
