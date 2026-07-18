@@ -1,35 +1,57 @@
-from django.shortcuts import render,redirect
-from django.views.generic import View
+from typing import Any
+from django.shortcuts import render
+from django.views.generic import View, TemplateView
+from django.http import JsonResponse
+from store.models import ProductModel, ProductStatusType
 from .cart import CartSession
-from store.models import ProductModel
-from django.shortcuts import get_object_or_404
-# Create your views here.
-class AddCartView(View):
-    def post(self,request,product_id):
-        cart=CartSession(request.session)
-        product=get_object_or_404(ProductModel,id=product_id)
-        cart.add_cart(product=product)
-        return redirect(request.META.get('HTTP_REFERER'))
-    
-class DetailCartView(View):
-    def get(self,request):
-        cart=CartSession(request.session)
-        obj=cart.get_cart_items()
-        total_price=cart.get_total_price()
-        return  render(request,'cart/detail_cart.html',{'cart':obj,'total_price':total_price})
 
-class RemoveCartView(View):
-    def post(self,request,product_id):
-        cart=CartSession(request.session)
-        product=get_object_or_404(ProductModel,id=product_id)
-        cart.remove_cart(product)
-        return redirect('cart:detail-cart')
-    
-class UpdateCartView(View):
-    def post(self, request, product_id):
+
+class SessionAddProductView(View):
+
+    def post(self, request, *args, **kwargs):
         cart = CartSession(request.session)
-        product = get_object_or_404(ProductModel, id=product_id)
-        quantity = int(request.POST.get('quantity', 1))
-        cart.update_cart(product, quantity)
-        return redirect(request.META.get('HTTP_REFERER'))
-    
+        product_id = request.POST.get("product_id")
+        if product_id and ProductModel.objects.filter(id=product_id, status=ProductStatusType.publish.value).exists():
+
+            cart.add_product(product_id)
+        if request.user.is_authenticated:
+            cart.merge_session_cart_in_db(request.user)
+        return JsonResponse({"cart": cart.get_cart_dict(), "total_quantity": cart.get_total_quantity()})
+
+
+class SessionRemoveProductView(View):
+
+    def post(self, request, *args, **kwargs):
+        cart = CartSession(request.session)
+        product_id = request.POST.get("product_id")
+        if product_id:
+            cart.remove_product(product_id)
+        if request.user.is_authenticated:
+            cart.merge_session_cart_in_db(request.user)
+        return JsonResponse({"cart": cart.get_cart_dict(), "total_quantity": cart.get_total_quantity()})
+
+
+class SessionUpdateProductQuantityView(View):
+
+    def post(self, request, *args, **kwargs):
+        cart = CartSession(request.session)
+        product_id = request.POST.get("product_id")
+        quantity = request.POST.get("quantity")
+        if product_id and quantity:
+            cart.update_product_quantity(product_id, quantity)
+        if request.user.is_authenticated:
+            cart.merge_session_cart_in_db(request.user)
+        return JsonResponse({"cart": cart.get_cart_dict(), "total_quantity": cart.get_total_quantity()})
+
+
+class CartSummaryView(TemplateView):
+    template_name = "cart/detail_cart.html"
+
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        cart = CartSession(self.request.session)
+        cart_items = cart.get_cart_items()
+        context["cart_items"] = cart_items
+        context["total_quantity"] = cart.get_total_quantity()
+        context["total_payment_price"] = cart.get_total_payment_amount()
+        return context

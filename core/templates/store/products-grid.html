@@ -232,10 +232,10 @@
                                         <span class="small">0</span>
                                     </a>
                                     <!-- End Rating -->
-                                    <form method='post' action="{% url 'cart:add-cart' product.id %}">
+                                    <form method='post' action="{% url 'cart:session-add-product' %}">
                                         {% csrf_token %}
-                                        <button type="submit"
-                                                class="btn btn-outline-primary btn-sm btn-transition rounded-pill">افزودن به سبد خرید</button>
+                                        <button type="button"
+                                                class="btn btn-outline-primary btn-sm btn-transition rounded-pill" onclick="addToCart('{{product.id}}')" >افزودن به سبد خرید</button>
                                     </form>
                                 </div>
                             </div>
